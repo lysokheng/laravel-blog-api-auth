@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Auth\UserAuthController;
+use App\Http\Controllers\EmployeeController;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,5 +23,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('/register', [UserAuthController::class, 'register']);
 Route::post('/login', [UserAuthController::class, 'login']);
+Route::post('/user/{id}', [UserAuthController::class, 'update']);
 
-Route::apiResource('/employee', 'EmployeeController')->middleware('auth:api');
+Route::apiResource('/employee', EmployeeController::class)->middleware('auth:api');

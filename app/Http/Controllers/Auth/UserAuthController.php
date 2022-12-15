@@ -50,4 +50,28 @@ class UserAuthController extends Controller
 
         return response(['user' => auth()->user(), 'token' => $token]);
     }
+
+    public function update(Request $request, $id)
+    {
+        $user = User::find($id);
+        $data = $request->all();
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $image_name = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('images'), $image_name);
+            $data['image'] = $image_name;
+
+            // remove old image
+            $old_image = public_path('images/' . $user->image);
+            if (file_exists($old_image)) {
+                @unlink($old_image);
+            }
+        }
+        if ($user) {
+            $user->update($data);
+            return response(['user' => $user, 'message' => 'Success'], 200);
+        } else {
+            return response(['message' => 'User not found']);
+        }
+    }
 }
