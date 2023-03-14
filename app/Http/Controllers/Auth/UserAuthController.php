@@ -74,4 +74,13 @@ class UserAuthController extends Controller
             return response(['message' => 'User not found']);
         }
     }
+
+
+    public function logout()
+    {
+        auth()->user()->tokens->each(function ($token, $key) {
+            $token->delete();
+        });
+        return response(['message' => 'Logged out successfully']);
+    }
 }
