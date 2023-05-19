@@ -19,7 +19,11 @@ class LikesController extends Controller
     // like post
     public function likePost(Request $request)
     {
+        $user = auth()->user();
         $data = $request->all();
+
+        $data['user_id'] = $user->id;
+        // $data = $request->all();
         $like = Likes::create($data);
         return response()->json($like);
     }

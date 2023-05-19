@@ -31,15 +31,22 @@ Route::post('/logout', [UserAuthController::class, 'logout'])->middleware('auth:
 
 
 // post routes
-Route::apiResource('/post', PostController::class)->middleware('auth:api');
+Route::post('post/{id}', [PostController::class, 'update'])->middleware('auth:api');
+Route::delete('post/{id}', [PostController::class, 'destroy'])->middleware('auth:api');
+Route::get('post/{id}', [PostController::class, 'show'])->middleware('auth:api');
+Route::get('post', [PostController::class, 'index'])->middleware('auth:api');
+Route::post('post', [PostController::class, 'store'])->middleware('auth:api');
+
+// Route::apiResource('/post', PostController::class)->middleware('auth:api');
 // postlike routes
 Route::get('/like/{id}', [LikesController::class, 'getLikesByPostId'])->middleware('auth:api');
 Route::post('/like', [LikesController::class, 'likePost'])->middleware('auth:api');
 Route::delete('/like/{id}', [LikesController::class, 'unlikePost'])->middleware('auth:api');
 // comment routes
 Route::post('/comment', [CommentController::class, 'store'])->middleware('auth:api');
-Route::post('/comment/{id}', [CommentController::class, 'destroy'])->middleware('auth:api');
-
+Route::delete('/comment/{id}', [CommentController::class, 'destroy'])->middleware('auth:api');
+/// get comment by post id
+Route::get('/comment/{id}', [CommentController::class, 'getCommentsByPostId'])->middleware('auth:api');
 
 
 
